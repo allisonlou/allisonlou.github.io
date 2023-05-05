@@ -82,7 +82,7 @@
                             </div>
                             <img class="img-fluid" src="assets/img/portfolio/cake.png" alt="..." />
                         </div>
-                        <h5 class="text-center">Lab 2: Bluetooth communication</h5>
+                        <h5 class="text-center">Lab 2: Bluetooth Communication</h5>
                     </div>
                     <!-- Portfolio Item 3-->
                     <div class="col-md-6 col-lg-4 mb-5">
@@ -416,7 +416,7 @@
                             <div class="row justify-content-center">
                                 <div class="col-lg-8">
                                     <!-- Portfolio Modal - Title-->
-                                    <h2 class="portfolio-modal-title text-secondary text-uppercase mb-0">Lab 1: The Artemis Board</h2>
+                                    <h2 class="portfolio-modal-title text-secondary text-uppercase mb-0">Lab 2: Bluetooth Communication</h2>
                                     <!-- Icon Divider-->
                                     <div class="divider-custom">
                                         <div class="divider-custom-line"></div>
@@ -433,7 +433,7 @@
                                         <b>Hardware</b><br>
                                         1 x SparkFun RedBoard Artemis Nano<br>
                                         1 x USB C-to-C Cable<br>
-                                        1 x Bluetooth Adapter (The intention was to use the provided Bluetooth adapter.  However, after experiencing multiple issues with 
+                                        1 x Bluetooth Adapter <br>(The intention was to use the provided Bluetooth adapter.  However, after experiencing multiple issues with 
                                         the Bluetooth adapter disconnecting without warning, I decided to use the Intel(R) Wireless Bluetooth(R) on my laptop.)
 
                                         <br>
@@ -640,8 +640,8 @@
                                         Arduino IDE<br>
                                         <br>
 
-                                        <b>1. Prelab</b><br>
-                                        <br> 
+                                        <b>1. Prelab</b>
+                                        <br>
                                         With two dual motor drivers, each connected to a motor, as well as the Artemis and 850 mAh battery, I decided to set up all of the components 
                                         as shown in the diagram below.  Although each motor driver is capable of driving two motors, they have been parallel coupled for increased 
                                         power and speed by connecting the two together. As for the pins, I used A0 and A1 for one motor while A2 and A3 were used for the other one.  
@@ -654,7 +654,7 @@
                                         <img width="600" height="450" src="lab 5 diagram.png" alt="..."></img><br>
                                         <br>
 
-                                        <b>2. Power Supply and Oscilloscope Hookup</b><br>
+                                        <b>2. Power Supply and Oscilloscope Hookup</b>
                                         <br>  
                                         Before connecting the motors to the drivers, I tested the dual motor driver connection to the Artemis by using a power supply instead of the 
                                         motor and inputting PWM signals from the Artemis.  I then viewed the input and output on an oscilloscope.  Below are a few pictures of the setup:  
@@ -670,21 +670,20 @@
                                         <br>
                                         <img width="600" height="450" src="lab 5 setup4 180 pwm.png" alt="..."></img><br>
                                         <img width="600" height="450" src="lab 5 setup4 120 pwm.png" alt="..."></img><br>
-                                        
-                                        <b>3. Testing Motor Drivers</b><br>
+                                        <br>
+            
+                                        <b>3. Testing Motor Drivers</b>
                                         <br>
                                         Below are the analogWrite code snippet used to test the motor drivers and the results displayed on the oscilloscope:
                                         <br>
                                         <img width="600" height="450" src="lab 5 wheels spinning code.png" alt="..."></img><br>
                                         <img width="600" height="450" src="lab 5 oscilloscope testing motor drivers.png" alt="..."></img><br>
-                                        <iframe width="600" height="450" src="https://youtube.com/embed/U4Pq805myvI"></iframe><br>
-                                        <br>
                                         Below is a short video of the wheels spinning as expected.
                                         <br>
                                         <iframe width="600" height="450" src="https://youtube.com/embed/ayRli8tIwDU"></iframe><br>
                                         <br>
 
-                                        <b>4. Testing Wheel Spinning</b><br>
+                                        <b>4. Testing Wheel Spinning</b>
                                         <br>                                        
                                         Below is another short video of the wheels spinning, this time with the battery driving the motor drivers.
                                         <br>
@@ -692,13 +691,13 @@
                                         <img class="img-fluid rounded mb-5" src="lab 5 wheels spinning code.png" alt="..." />
                                         <br>
                                            
-                                        <b>5. Car Components</b><br>
+                                        <b>5. Car Components</b>
                                         <br>
                                         <img class="img-fluid rounded mb-5" src="lab 5 car components.png" alt="..." />
                                         <br>
                                         
                                 
-                                        <b>6. Lower Limit PWM Value</b><br>
+                                        <b>6. Lower Limit PWM Value</b>
                                         <br>
                                         To understand the car’s capabilities, the lower limit of its PWM values were explored for both forward motion and on-axis turns.  This was 
                                         accomplished by lowering the PWM values until the wheels are not able to start moving from a stationary position.  Eventually, it was found 
@@ -707,7 +706,7 @@
                                         <br>
                                         <br>
 
-                                        <b>7. Calibration Demonstration </b><br>
+                                        <b>7. Calibration Demonstration </b>
                                         <br> 
                                         To ensure that the car’s motors could spin at the same rate, I implemented a calibration factor.  After much experimentation, I found that the 
                                         calibration factor value is 20, with the PWM value of the left motor needing to be higher than that of the right motor in order for the car to 
@@ -720,7 +719,7 @@
                                         <br>
                                         </p>
                             
-                                        <b>8. Open Loop Control </b><br>
+                                        <b>8. Open Loop Control </b>
                                         <br> 
                                         To demonstrate open loop and untether control, the car was programmed to travel in a straight line, make a left turn, travel again before making 
                                         a right turn, and travel once more before stopping.
