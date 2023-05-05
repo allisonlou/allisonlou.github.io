@@ -447,8 +447,8 @@
                         <div class="container">
                             <div class="row justify-content-center">
                                 <div class="col-lg-8">
-                                    <!-- Portfolio Modal - Title-->
-                                    <h2 class="portfolio-modal-title text-secondary text-uppercase mb-0">Lab 3: TOF</h2>
+                                                                        <!-- Portfolio Modal - Title-->
+                                    <h2 class="portfolio-modal-title text-secondary text-uppercase mb-0">Lab 1: The Artemis Board</h2>
                                     <!-- Icon Divider-->
                                     <div class="divider-custom">
                                         <div class="divider-custom-line"></div>
@@ -456,9 +456,88 @@
                                         <div class="divider-custom-line"></div>
                                     </div>
                                     <!-- Portfolio Modal - Image-->
-                                    <img class="img-fluid rounded mb-5" src="assets/img/portfolio/circus.png" alt="..." />
+                                    <img class="img-fluid rounded mb-5" src="artemislab_cover.png" alt="..." />
                                     <!-- Portfolio Modal - Text-->
-                                    <p class="mb-4">*Lab currently in progress*</p>
+                                    <p class="mb-4">
+                                        <b>Objective</b><br>
+                                        The objective of Lab 2 is to establish communication between the Artemis board and the computer.  Using the Arduino programming language on the Artemis and Python code in a Jupyter notebook, this framework is used to send data using Bluetooth, which will be useful for future labs. <br>
+                                        <br>
+                                        <b>Hardware</b><br>
+                                        1 x SparkFun RedBoard Artemis Nano<br>
+                                        1 x USB C-to-C Cable<br>
+                                        1 x Bluetooth Adapter (The intention was to use the provided Bluetooth adapter.  However, after experiencing multiple issues with 
+                                        the Bluetooth adapter disconnecting without warning, I decided to use the Intel(R) Wireless Bluetooth(R) on my laptop.)
+
+                                        <br>
+                                        <b>Software</b><br>
+                                        ArduinoBLE<br>
+                                        Codebase<br>
+                                        JupyterLab<br>
+                                        Arduino IDE<br>
+                                        <br>
+
+                                        <b>Prelab</b><br>
+                                        The computer setup involved creating a new virtual environment in JupyterLab called FastRobots_ble, installing the necessary Python 
+                                        Packages, and downloading the provided Lab 2 Codebase.  However, prelab was complicated by the Bluetooth software’s incompatibility 
+                                        with Windows 11, making it difficult to get the system set up.  Thanks to the help of course TAs and fellow students who found a solution, 
+                                        JupyterLab is set up on Windows 11 using Windows Subsystem for Linux (WSL).<br> 
+                                        <img width="600" height="450" src="artemislab_serial.png" alt="..."></img><br>
+                                        <br>
+
+                                        <b>Configurations</b><br>
+                                        After setup was completed, the following configurations were made so that the devices could establish a connection.  First, the Artemis 
+                                        MAC address was updated to be one used by the Artemis in the prelab.  Afterwards, the BLEService UUID was changed to avoid accidentally 
+                                        connecting my classmates.  This was achieved by generating a new UUID and putting it on the “#define BLE_UUID_TEST_SERVICE” line in 
+                                        ble.arduino.ino, as well as the “ble_service” line in connections.yaml.<br>  
+                                        <img width="600" height="450" src="lab 2 BLE UUIDs" alt="..."></img><br>
+                                        <img width="600" height="450" src="lab 2 connection.yaml" alt="..."></img><br>
+                                        <br>
+
+                                        <b>Commands</b><br>
+                                        The implementation of the following tasks ensured that it was possible to receive time stamped messages from the Artemis.<br>
+                                        <img width="600" height="450" src="artemislab_serial.png" alt="..."></img><br>
+                                        <br>
+
+                                        <b>ECHO Command</b><br>
+                                        Sending an ECHO command with a string value to the Artemis will return the string value with an appended “:))” to the computer.<br> 
+                                        <img width="600" height="450" src="lab 2 task 1.png" alt="..."></img><br>
+                                        <br>
+                                
+                                        <b>GET_TIME_MILLIS Command</b><br>
+                                        When sent, the command GET_TIME_MILLIS will result in the robot reply with the current time on the string characteristic.  This was 
+                                        accomplished using the Arduino function millis().<br> 
+                                        <img width="600" height="450" src="lab 2 task 2.png" alt="..."></img><br>
+                                        <br>
+                                        
+                                        <b>Notification Handler</b><br>
+                                        A notification handler was set up in Python so that strings from the Artemis can be received automatically.  This will be useful 
+                                        since now multiple string arrays can be gathered without being called manually. <br> 
+                                        <img width="600" height="450" src="lab 2 general notif.png" alt="..."></img><br>
+                                        <img width="600" height="450" src="lab 2 task 3.png" alt="..."></img><br>
+                                        <br>
+                                
+                                        <b>GET_TEMP_5s Command</b><br>
+                                        Sending the GET_TEMP_5s command will send an string array of five timestamped internal temperature readings in the span of five seconds, 
+                                        with readings sent once per second.  With the characteristic size limit in mind, one time-temperature pair was sent at a time.  <br> 
+                                        <img width="600" height="450" src="lab 2 task 4.png" alt="..."></img><br>
+                                        <br>
+                                
+                                        <b>GET_TEMP_5s_RAPID Command</b><br>
+                                        The GET_TEMP_5s_RAPID command works similarly like the GET_TEMP_5s, except this command sends a string array with five seconds 
+                                        worth of data, meaning a lot more time-temperature pairs are.  Like before, one time-temperature pair was sent at a time because 
+                                        of the characteristic size limit.<br> 
+                                        <img width="600" height="450" src="lab 2 task 5.png" alt="..."></img><br>
+                                        <br>
+                                        
+                                        <b>Limitations</b><br>
+                                        Real-time communication is not practical because working with strings results in significant latency.  Instead, the robot must be 
+                                        able to handle all real-time processing on-boarding and relay results in chunks.  With this taken into consideration, let’s consider 
+                                        the limitations of the Artemis, which has 384 kB (3,072,000 bits) of RAM.  If we were to sample 16-bit values at 150 Hz every 5 
+                                        seconds, that is 2400 bits per second or 12000 bits over that 5 second period.  That means only 256 of these 5 second groups can be 
+                                        sent before the Artemis runs out of storage.<br> 
+                                        <img width="600" height="450" src="artemislab_serial.png" alt="..."></img><br>
+                                        <br>
+                                        </p>
                                     <button class="btn btn-primary" data-bs-dismiss="modal">
                                         <i class="fas fa-xmark fa-fw"></i>
                                         Close Window
@@ -524,7 +603,8 @@
                                     <!-- Portfolio Modal - Text-->
                                     <p class="mb-4"></p>
                                         <b>Objective</b><br>
-                                        The goal of Lab 5 is to change the car from from manual to open loop control of the car.  Using the Artemis board and two motor driver, it should be able to execute a pre-programmed series of moves. <br>
+                                        The goal of Lab 5 is to change the car from from manual to open loop control of the car.  Using the Artemis board and two motor driver,
+                                        it should be able to execute a pre-programmed series of moves. <br>
                                         <br>
                                         <b>Hardware</b><br>
                                         1 x SparkFun RedBoard Artemis Nano <br>
@@ -545,23 +625,31 @@
 
                                         <b>1. Prelab</b><br>
                                         <br> 
-                                        With two dual motor drivers, each connected to a motor, as well as the Artemis and 850 mAh battery, I decided to set up all of the components as shown in the diagram below.  Although each motor driver is capable of driving two motors, they have been parallel coupled for increased power and speed by connecting the two together. As for the pins, I used A0 and A1 for one motor while A2 and A3 were used for the other one.  
+                                        With two dual motor drivers, each connected to a motor, as well as the Artemis and 850 mAh battery, I decided to set up all of the components 
+                                        as shown in the diagram below.  Although each motor driver is capable of driving two motors, they have been parallel coupled for increased 
+                                        power and speed by connecting the two together. As for the pins, I used A0 and A1 for one motor while A2 and A3 were used for the other one.  
                                         <br>
-                                        The Artemis and the motor drivers/motors are powered by separate batteries for two reasons.  The first reason is that more batteries means more power for the motors.  The second reason is to reduce any noise from the motors that the Artemis microcontroller could accidentally pick up, which can result in unreliable data.  With this implementation, the Artemis microcontroller will be powered by the 650 mAh battery while the motor drivers/motors will be powered by the 850 mAh battery.  
+                                        The Artemis and the motor drivers/motors are powered by separate batteries for two reasons.  The first reason is that more batteries means 
+                                        more power for the motors.  The second reason is to reduce any noise from the motors that the Artemis microcontroller could accidentally pick 
+                                        up, which can result in unreliable data.  With this implementation, the Artemis microcontroller will be powered by the 650 mAh battery while 
+                                        the motor drivers/motors will be powered by the 850 mAh battery.  
                                         <br>
                                         <img width="600" height="450" src="lab 5 diagram.png" alt="..."></img><br>
                                         <br>
 
                                         <b>2. Power Supply and Oscilloscope Hookup</b><br>
                                         <br>  
-                                        Before connecting the motors to the drivers, I tested the dual motor driver connection to the Artemis by using a power supply instead of the motor and inputting PWM signals from the Artemis.  I then viewed the input and output on an oscilloscope.  Below are a few pictures of the setup:  
+                                        Before connecting the motors to the drivers, I tested the dual motor driver connection to the Artemis by using a power supply instead of the 
+                                        motor and inputting PWM signals from the Artemis.  I then viewed the input and output on an oscilloscope.  Below are a few pictures of the setup:  
                                         <br>
                                         <img width="600" height="450" src="lab 5 setup1.png" alt="..."></img><br>
                                         <img width="600" height="450" src="lab 5 setup2.png" alt="..."></img><br>
                                         <img width="600" height="450" src="lab 5 setup3.png" alt="..."></img><br>
                                         <br>
                                         <br>
-                                        The power supply to the motor driver’s Vin was set to 3.7V, since that is the voltage supplied by the 850 mAh battery that would eventually power the motors.  I sent a few PWM signals with different duty cycles to check that the motor drivers were working.  The first example below was when 180 PWM was sent, and the second example was when 120 PWM was sent.   
+                                        The power supply to the motor driver’s Vin was set to 3.7V, since that is the voltage supplied by the 850 mAh battery that would eventually power 
+                                        the motors.  I sent a few PWM signals with different duty cycles to check that the motor drivers were working.  The first example below was when 
+                                        180 PWM was sent, and the second example was when 120 PWM was sent.   
                                         <br>
                                         <img width="600" height="450" src="lab 5 setup4 180 pwm.png" alt="..."></img><br>
                                         <img width="600" height="450" src="lab 5 setup4 120 pwm.png" alt="..."></img><br>
@@ -595,13 +683,19 @@
                                 
                                         <b>6. Lower Limit PWM Value</b><br>
                                         <br>
-                                        To understand the car’s capabilities, the lower limit of its PWM values were explored for both forward motion and on-axis turns.  This was accomplished by lowering the PWM values until the wheels are not able to start moving from a stationary position.  Eventually, it was found that for forward motion, the lower limit of the PWM values for the right and left wheels are 11 and 31 respectively.  For on-axis turns, the lower limits for the right and left wheels are 31 and 51 respectively.  
+                                        To understand the car’s capabilities, the lower limit of its PWM values were explored for both forward motion and on-axis turns.  This was 
+                                        accomplished by lowering the PWM values until the wheels are not able to start moving from a stationary position.  Eventually, it was found 
+                                        that for forward motion, the lower limit of the PWM values for the right and left wheels are 11 and 31 respectively.  For on-axis turns, the 
+                                        lower limits for the right and left wheels are 31 and 51 respectively.  
                                         <br>
                                         <br>
 
                                         <b>7. Calibration Demonstration </b><br>
                                         <br> 
-                                        To ensure that the car’s motors could spin at the same rate, I implemented a calibration factor.  After much experimentation, I found that the calibration factor value is 20, with the PWM value of the left motor needing to be higher than that of the right motor in order for the car to move in a fairly straight line (e.g. left motor = 70, right motor = 50). *Note: The video was taken on the balcony connecting Upson Hall and Phillips Hall, where each tile is 1-by-1 ft.
+                                        To ensure that the car’s motors could spin at the same rate, I implemented a calibration factor.  After much experimentation, I found that the 
+                                        calibration factor value is 20, with the PWM value of the left motor needing to be higher than that of the right motor in order for the car to 
+                                        move in a fairly straight line (e.g. left motor = 70, right motor = 50). *Note: The video was taken on the balcony connecting Upson Hall and 
+                                        Phillips Hall, where each tile is 1-by-1 ft.
                                         <br>
                                         <iframe width="600" height="450" src="https://youtube.com/embed/WfIHviUsHyE"></iframe><br>
                                         <img class="img-fluid rounded mb-5" src="lab 5 calibration 1.png" alt="..." />
@@ -611,7 +705,8 @@
                             
                                         <b>8. Open Loop Control </b><br>
                                         <br> 
-                                        To demonstrate open loop and untether control, the car was programmed to travel in a straight line, make a left turn, travel again before making a right turn, and travel once more before stopping.
+                                        To demonstrate open loop and untether control, the car was programmed to travel in a straight line, make a left turn, travel again before making 
+                                        a right turn, and travel once more before stopping.
                                         <br>
                                         <iframe width="600" height="450" src="https://www.youtube.com/embed/lGtxXBsX-UQ"></iframe><br>           
                                         <img class="img-fluid rounded mb-5" src="lab 5 open loop control.png" alt="..." />
