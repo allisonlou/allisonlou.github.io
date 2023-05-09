@@ -879,7 +879,7 @@
                             <div class="row justify-content-center">
                                 <div class="col-lg-8">
                                     <!-- Portfolio Modal - Title-->
-                                    <h2 class="portfolio-modal-title text-secondary text-uppercase mb-0">Lab 10: Localization (Sim)</h2>
+                                    <h2 class="portfolio-modal-title text-secondary text-uppercase mb-0">Lab 10: Grid Localization using Bayes Filter</h2>
                                     <!-- Icon Divider-->
                                     <div class="divider-custom">
                                         <div class="divider-custom-line"></div>
@@ -887,9 +887,59 @@
                                         <div class="divider-custom-line"></div>
                                     </div>
                                     <!-- Portfolio Modal - Image-->
-                                    <img class="img-fluid rounded mb-5" src="assets/img/portfolio/game.png" alt="..." />
+                                    <img class="img-fluid rounded mb-5" src="artemislab_cover.png" alt="..." />
                                     <!-- Portfolio Modal - Text-->
-                                    <p class="mb-4">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Mollitia neque assumenda ipsam nihil, molestias magnam, recusandae quos quis inventore quisquam velit asperiores, vitae? Reprehenderit soluta, eos quod consequuntur itaque. Nam.</p>
+                                    <p class="mb-4">
+                                        <b>Objective</b><br>
+                                        The goal of this lab is to implement grid localization using Bayes filter.  Simulating localization before implementation on the actual robot will help with testing functions in a more stable environment.  All functions used in this lab are from Anya Prabowo’s 2022 Fast Robots website.
+ <br>
+                                        <br>
+                                        <b>Software</b><br>
+                                        Localization Software<br>
+                                        <br>
+
+                                        <b>Simulation Setup</b><br>
+                                        First, the simulation was set up.  This is what the plots look like:<br> 
+                                        <iframe width="600" height="450" src="https://youtube.com/embed/lo7z2jMCCbU"></iframe><br>
+                                        <br>
+
+                                        <b>Compute Control</b><br>
+                                        Proceeding with the implementations, first is Compute Control, which uses the current and previous position of the robot to 
+                                        compute the following equations below:<br>  
+                                        <img width="600" height="450" src="artemislab_serial.png" alt="..."></img><br>
+                                        <img width="600" height="450" src="artemislab_serial.png" alt="..."></img><br>
+                                        <br>
+
+                                        <b>Odometry Motion Model</b><br>
+                                        Next, the Odometry Motion Model utilizes the robot’s current position, its previous position, and the control information from 
+                                        Compute Control to calculate the probability that the actual movement of the robot occurred using the gaussian distribution.<br>
+                                        <iframe width="600" height="450" src="https://youtube.com/embed/U4Pq805myvI"></iframe><br>
+                                        <br>
+
+                                        <b>Prediction Step</b><br>
+                                        The Prediction Step predicts the robot’s position by using the current and previous odometry readings to update the current 
+                                        position.  <br> 
+                                        <iframe width="600" height="450" src="https://youtube.com/embed/uQum4yToBSE"></iframe><br>
+                                        <br>
+                                
+                                        <b>Sensor Model Update</b><br>
+                                        The Sensor Model Update calculates that the probability of each sensor measurement the robot collected being correct given the 
+                                        robot’s current position.  <br> 
+                                        <iframe width="600" height="450" src="https://youtube.com/embed/uQum4yToBSE"></iframe><br>
+                                        <br>
+                                
+                                        <b>Update Step</b><br>
+                                        Finally, the robot proceeds to the update step of Bayes Filter.  Using all previous sensor measurements and controls, it calculates 
+                                        the prior belief and the sensor model.  It also calculates the product of the values in the sensor model probability array, which 
+                                        is then multiplied by the prior belief and then normalized to create a valid probability distribution.<br> 
+                                        <iframe width="600" height="450" src="https://youtube.com/embed/uQum4yToBSE"></iframe><br>
+                                        <br>
+                                
+                                        <b>Demo</b><br>
+                                        below is a video showing the results<br> 
+                                        <iframe width="600" height="450" src="https://youtube.com/embed/uQum4yToBSE"></iframe><br>
+                                        <br>
+                                        </p>
                                     <button class="btn btn-primary" data-bs-dismiss="modal">
                                         <i class="fas fa-xmark fa-fw"></i>
                                         Close Window
