@@ -1299,9 +1299,8 @@
                                     <!-- Portfolio Modal - Text-->
                                     <p class="mb-4">
                                         <b>Objective</b><br>
-                                        The goal of Lab 1 is to set up and become familiar with the Arduino IDE and the Artemis board. Specifically, this involves 
-                                        becoming comfortable programming the Artemis board, using the board LED, reading/writing serial messages over USB, and 
-                                        using the onboard temperature sensor and Pulse Density Microphone. <br>
+                                        The goal of this lab is to perform localization with the Bayes filter on the actual robot and develop an appreciation for the 
+                                        differences between simulation and the real-world <br>
                                         <br>
                                         <b>Hardware</b><br>
                                         1 x Fully assembled robot, with Artemis, TOF sensors, and an IMU.
@@ -1310,32 +1309,46 @@
                                         Arduino IDE<br>
                                         <br>
 
-                                        <b>Example: Blink it Up</b><br>
-                                        After hooking up the Artemis Board and following installation instructions for Arduino, I first ran the program “Example: 
-                                        Blink it Up” to ensure that the LED on the Artemis Board was working properly. I also lowered the baud rate to 115200 bits/s 
-                                        to get the example to work.<br> 
+                                        <b>1. Prelab</b><br>
+                                        prelab her<br> 
                                         <iframe width="600" height="450" src="https://youtube.com/embed/lo7z2jMCCbU"></iframe><br>
                                         <br>
 
-                                        <b>Example4_Serial</b><br>
-                                        I uploaded code from File->Examples->Artemis Examples->Example4_Serial to test the serial communication between the Artemis 
-                                        board and the computer, which was shown in the serial monitor. It also allowed the user to provide an input, which would then 
-                                        be echoed back as the output.<br>  
+                                        <b>Testing Localization in Simulation</b><br>
+                                        To check that everything was set up properly, I first ran the provided notebook lab11_sim.ipynb, which is an optimized Bayes 
+                                        filter implementation for the simulated robot.  The map used (dimensions: x=12, y=9, theta=18 ) was divided into a 3D grid size 
+                                        of 1944 possible robot poses.  Pictured is a screenshot of the localization in simulation.<br>  
                                         <img width="600" height="450" src="artemislab_serial.png" alt="..."></img><br>
                                         <br>
 
-                                        <b>Example2_AnalogRead</b><br>
-                                        To test the temperature sensor, I uploaded code from “File->Examples->Artemis Examples->Example2_analogRead”. In the video, 
-                                        whenever my thumb wasn’t on the chip, the temperature values were in the 4000s range.  Whenever my thumb pressed on the chip, 
-                                        the readings shot up into the 20000s range.<br>
+                                        <b>Testing Localization in Real Life</b><br>
+                                        Next, to implement the localization algorithm on the physical robot, I ran lab11_real.ipynb and implemented the perform_observation_loop 
+                                        member function of the class RealRobot using the localization code from lab 9.  However, some adjustments were made to ensure 
+                                        compatibility with the provided localization code, namely modifying the format of my data a slight bit to represent my vector 
+                                        as a numpy array.  The method should output this array where it consists of 18 ToF sensor readings and the respective angle at 
+                                        20-degree increments from 0 degrees to 340 degrees.  Since the robot goes counterclockwise, this array was also inverted.<br>
                                         <iframe width="600" height="450" src="https://youtube.com/embed/U4Pq805myvI"></iframe><br>
                                         <br>
 
-                                        <b>Example1_MicrophoneOutput</b><br>
-                                        To test the microphone, I uploaded code from “File->Examples->PDM->Example1_MicrophoneOutput”. From there, I used an online note 
-                                        generator to play the note A4, which has the frequency of 440 Hz.  The serial monitor printed out that the microphone detected a 
-                                        frequency of 434 Hz, which is very close to 440 Hz.<br> 
+                                        <b>Arduino Code</b><br>
+                                        Pictured below is the Arduino code used.<br> 
                                         <iframe width="600" height="450" src="https://youtube.com/embed/uQum4yToBSE"></iframe><br>
+                                        <br>
+                                        
+                                        <b>Python Code</b><br>
+                                        Picutred is the Python code used.<br>  
+                                        <img width="600" height="450" src="artemislab_serial.png" alt="..."></img><br>
+                                        <br>
+                                        
+                                        <b>Results</b><br>
+                                        (5,3)<br>  
+                                        <img width="600" height="450" src="artemislab_serial.png" alt="..."></img><br>
+                                        (5,-3)<br>  
+                                        <img width="600" height="450" src="artemislab_serial.png" alt="..."></img><br>
+                                        (0,3)<br>  
+                                        <img width="600" height="450" src="artemislab_serial.png" alt="..."></img><br>
+                                        (-3,-2)<br>  
+                                        <img width="600" height="450" src="artemislab_serial.png" alt="..."></img><br>
                                         <br>
                                         </p>
                                     <button class="btn btn-primary" data-bs-dismiss="modal">
@@ -1371,9 +1384,8 @@
                                     <!-- Portfolio Modal - Text-->
                                     <p class="mb-4">
                                         <b>Objective</b><br>
-                                        The goal of Lab 1 is to set up and become familiar with the Arduino IDE and the Artemis board. Specifically, this involves 
-                                        becoming comfortable programming the Artemis board, using the board LED, reading/writing serial messages over USB, and 
-                                        using the onboard temperature sensor and Pulse Density Microphone. <br>
+                                        The goal of Lab 12 is to have the robot navigate through a set of waypoints in that environment as quickly and accurately 
+                                        as possible. <br>
                                         <br>
                                         <b>Hardware</b><br>
                                         1 x Fully assembled robot, with Artemis, TOF sensors, and an IMU.
@@ -1382,10 +1394,11 @@
                                         Arduino IDE<br>
                                         <br>
 
-                                        <b>Example: Blink it Up</b><br>
-                                        After hooking up the Artemis Board and following installation instructions for Arduino, I first ran the program “Example: 
-                                        Blink it Up” to ensure that the LED on the Artemis Board was working properly. I also lowered the baud rate to 115200 bits/s 
-                                        to get the example to work.<br> 
+                                        <b>0. Note on Robot Issues</b><br>
+                                        During the Robotics showcase, my robot started overheating and smoking.  After the TAs and I detached the motor battery, we
+                                        found that the motor battery wires fused together and that one of the motor drivers was damaged to the point where it was no 
+                                        longer usable.  After consulting the TAs and Kirsten, it was determined that the best steps for me moving forward were to 
+                                        borrow other people’s robots and collaborate with them to get the labs finished.<br> 
                                         <iframe width="600" height="450" src="https://youtube.com/embed/lo7z2jMCCbU"></iframe><br>
                                         <br>
 
@@ -1403,10 +1416,8 @@
                                         <iframe width="600" height="450" src="https://youtube.com/embed/U4Pq805myvI"></iframe><br>
                                         <br>
 
-                                        <b>Example1_MicrophoneOutput</b><br>
-                                        To test the microphone, I uploaded code from “File->Examples->PDM->Example1_MicrophoneOutput”. From there, I used an online note 
-                                        generator to play the note A4, which has the frequency of 440 Hz.  The serial monitor printed out that the microphone detected a 
-                                        frequency of 434 Hz, which is very close to 440 Hz.<br> 
+                                        <b>Gratitude</b><br>
+                                        I would like to thank <br> 
                                         <iframe width="600" height="450" src="https://youtube.com/embed/uQum4yToBSE"></iframe><br>
                                         <br>
                                         </p>
