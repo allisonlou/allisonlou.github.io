@@ -92,7 +92,7 @@
                             </div>
                             <img class="img-fluid" src="assets/img/portfolio/circus.png" alt="..." />
                         </div>
-                        <h5 class="text-center">Lab 3: TOF</h5>
+                        <h5 class="text-center">Lab 3: ToF</h5>
                     </div>
                     <!-- Portfolio Item 4-->
                     <div class="col-md-6 col-lg-4 mb-5 mb-lg-0">
@@ -441,7 +441,6 @@
                                         ArduinoBLE<br>
                                         Codebase<br>
                                         JupyterLab<br>
-                                        Arduino IDE<br>
                                         <br>
 
                                         <b>1. Prelab</b><br>
@@ -547,7 +546,7 @@
                             <div class="row justify-content-center">
                                 <div class="col-lg-8">
                                     <!-- Portfolio Modal - Title-->
-                                    <h2 class="portfolio-modal-title text-secondary text-uppercase mb-0">Lab 1: The Artemis Board</h2>
+                                    <h2 class="portfolio-modal-title text-secondary text-uppercase mb-0">Lab 3: Time of Flight (ToF) Sensors</h2>
                                     <!-- Icon Divider-->
                                     <div class="divider-custom">
                                         <div class="divider-custom-line"></div>
@@ -566,37 +565,93 @@
                                         <b>Hardware</b><br>
                                         1 x SparkFun RedBoard Artemis Nano<br>
                                         1 x USB C-to-C Cable<br>
+                                        2 x 4m ToF Sensors
+                                        1 x QWIIC Breakout Broad
+                                        2 x QWIIC Connector
+                                        1 x Ruler
+                                        
                                         <br>
                                         <b>Software</b><br>
-                                        Arduino IDE<br>
+                                        ArduinoBLE<br>
+                                        Codebase<br>
+                                        JupyterLab<br>
                                         <br>
 
-                                        <b>Example: Blink it Up</b><br>
-                                        After hooking up the Artemis Board and following installation instructions for Arduino, I first ran the program “Example: 
-                                        Blink it Up” to ensure that the LED on the Artemis Board was working properly. I also lowered the baud rate to 115200 bits/s 
-                                        to get the example to work.<br> 
-                                        <iframe width="600" height="450" src="https://youtube.com/embed/lo7z2jMCCbU"></iframe><br>
+                                        <b>1. Prelab</b><br>
+                                        AAs found on the VL53L0X datasheet, the default address of the ToF sensor is 0x52. <br> 
                                         <br>
+                                        Since two sensors will be used, the addresses of each ToF sensor will need to be changed in order to distinguish the data received from each one.  
+                                        This can be accomplished in two ways:    
+                                        1. Changing the address programmatically (while powered)<br>
+                                        This method consists of changing the I2C address of one of the ToF sensors while the other one is shut down using the Xshut pin.  That way, the 
+                                        sensors will have different I2C addresses and the computer can tell apart the data sent by the two sensors.  It will also allow both sensors to 
+                                        be read without having to shut down one while the other is running.<br>
+                                        <br>
+                                        2. Enable sensors separately through their shutdown pins<br>
+                                        This alternative method involves pulling down the shutdown pin of one sensor to power it off every time the other one is extracting data using the 
+                                        shared I2C address. This method conserves power by turning off one sensor when not in use, eliminating the need to change the sensor addresses after 
+                                        each power cycle. However, implementing this method requires additional programming logic to control the activation and deactivation of the shutdown 
+                                        pins, which can cause communication delays in the program.<br>
+                                        <br>
+                                        After considering the placement of the two sensors, I decided to put one in the front and the other on the side to optimize the robot’s movement.  
+                                        One should go in the front so that the robot knows where it is heading to.  As for the second sensor, placing it on the side will be the most useful 
+                                        choice for figuring out the positioning of the robot rather than placing it in the front or the back. 
 
-                                        <b>Example4_Serial</b><br>
-                                        I uploaded code from File->Examples->Artemis Examples->Example4_Serial to test the serial communication between the Artemis 
-                                        board and the computer, which was shown in the serial monitor. It also allowed the user to provide an input, which would then 
-                                        be echoed back as the output.<br>  
                                         <img width="600" height="450" src="artemislab_serial.png" alt="..."></img><br>
                                         <br>
 
-                                        <b>Example2_AnalogRead</b><br>
-                                        To test the temperature sensor, I uploaded code from “File->Examples->Artemis Examples->Example2_analogRead”. In the video, 
-                                        whenever my thumb wasn’t on the chip, the temperature values were in the 4000s range.  Whenever my thumb pressed on the chip, 
-                                        the readings shot up into the 20000s range.<br>
+                                        <b>2. Connecting the ToF sensor to the QWIIC Breakout Board</b><br>
+                                        Pictured is the ToF sensor connected to the QWIIC breakout board.<br> 
+                                        <img width="600" height="450" src="artemislab_serial.png" alt="..."></img><br>
+                                        <br>
+                                        
+                                        <b>3. I2C Address</b><br>
+                                        When running the Example05_Wire_I2C file with one ToF sensor connected, the serial monitor printed out 0x29 as the I2C address instead of 0x52 as 
+                                        anticipated.  A possible explanation for this is that 0x29 is equal to 0x52 bit-shifted to the right.  The last bit is taken off since it is used 
+                                        as a read/write bit, and therefore is not read in the address.<br> 
+                                        <img width="600" height="450" src="artemislab_serial.png" alt="..."></img><br>
+                                        <br>
+                                        
+                                        <b>4. ToF Modes</b><br>
+                                        According to the data sheet, the ToF sensor can work in three different modes. The short mode has a maximum distance of up to 1.3m and has better 
+                                        ambient immunity.  The medium mode has a maximum distance of up to 3m.  The long distance, or the default, mode has a maximum distance of up to 4m, 
+                                        which is the maximum distance of the sensor overall.  After weighing the pros and cons of each mode, it was determined that the short mode would be 
+                                        the best choice because it is not as sensitive to how bright the environment is compared to the other modes.  However, if a longer range is needed, 
+                                        the medium or long mode should be used, albeit in an environment that’s not too bright.<br> 
+                                        <br>
+                                        
+                                        <b>5. Sensor Data Collection</b><br>
+                                        To test the ToF sensor range, accuracy, repeatability, and ranging time, the SparkFun Example1_ReadDistance example was used.  To accomplish this, 
+                                        ten measurements were taken every 0.1m from 0.1m to 1.2m.  It was also found that the sensor range was approximately 1.900m.<br>  
+                                        <br>
+                                        Below for each distance are the average absolute difference in distance for assessing accuracy and the standard deviation for assessing repeatability.<br>  
+                                        <img width="600" height="450" src="artemislab_serial.png" alt="..."></img><br>
+                                        <br>
+                                        The results were also plotted on a graph.<br>  
+                                        <img width="600" height="450" src="artemislab_serial.png" alt="..."></img><br>
+                                        <img width="600" height="450" src="artemislab_serial.png" alt="..."></img><br>
+                                        <br>
+
+                                        <b>6. 2 ToF Sensors</b><br>
+                                        As mentioned earlier, hooking up both ToF sensors simultaneously means changing the I2C address of one of them while the other is shut down using the Xshut 
+                                        pin.  This was accomplished with sensor 1’s xshut pin being pin 8 and sensor 2’s xshut pin being pin 7.  Sensor 1 is shut down while sensor 2’s new I2C 
+                                        address is changed to be 0x10 before sensor 1 is turned on and both are connected.  The results were the sensors working in parallel <br>
+                                        <img width="600" height="450" src="artemislab_serial.png" alt="..."></img><br>
                                         <iframe width="600" height="450" src="https://youtube.com/embed/U4Pq805myvI"></iframe><br>
                                         <br>
 
-                                        <b>Example1_MicrophoneOutput</b><br>
-                                        To test the microphone, I uploaded code from “File->Examples->PDM->Example1_MicrophoneOutput”. From there, I used an online note 
-                                        generator to play the note A4, which has the frequency of 440 Hz.  The serial monitor printed out that the microphone detected a 
-                                        frequency of 434 Hz, which is very close to 440 Hz.<br> 
-                                        <iframe width="600" height="450" src="https://youtube.com/embed/uQum4yToBSE"></iframe><br>
+                                        <b>7. ToF Sensor Speed: </b><br>
+                                        To print Artemis clock to the Serial as fast as possible, continuously, and only print the data from the sensors when available, the SparkFun Example1_ReadDistance 
+                                        example program was modified to print the the current time, ranging time, and the distances from sensor 1 and sensor 2 respectively. <br> 
+                                        <img width="600" height="450" src="artemislab_serial.png" alt="..."></img><br>
+                                        <img width="600" height="450" src="artemislab_serial.png" alt="..."></img><br>
+                                        As shown, the ranging time is approximately 52 ms.  This is the limiting factor in the sense that this is the minimum time between data points.  In other words, this 
+                                        is how long the sensor takes in between reading and sending data.  
+                                        <br>
+
+                                        <b>8. Time vs Distance</b><br>
+                                        Work from Lab 2 is edited to record time-stamped ToF data for a set period of time and then sent to my laptop via Bluetooth.<br>
+                                        <img width="600" height="450" src="artemislab_serial.png" alt="..."></img><br>
                                         <br>
                                         </p>
                                     <button class="btn btn-primary" data-bs-dismiss="modal">
@@ -620,7 +675,7 @@
                             <div class="row justify-content-center">
                                 <div class="col-lg-8">
                                     <!-- Portfolio Modal - Title-->
-                                    <h2 class="portfolio-modal-title text-secondary text-uppercase mb-0">Lab 1: The Artemis Board</h2>
+                                    <h2 class="portfolio-modal-title text-secondary text-uppercase mb-0">Lab 4: IMU</h2>
                                     <!-- Icon Divider-->
                                     <div class="divider-custom">
                                         <div class="divider-custom-line"></div>
@@ -637,8 +692,15 @@
                                         using the onboard temperature sensor and Pulse Density Microphone. <br>
                                         <br>
                                         <b>Hardware</b><br>
-                                        1 x SparkFun RedBoard Artemis Nano<br>
-                                        1 x USB C-to-C Cable<br>
+                                        1 x SparkFun RedBoard Artemis Nano
+                                        1 x USB cable
+                                        1 x 9DOF IMU sensor
+                                        2 x 4m ToF sensor
+                                        1 x QWIIC Breakout board
+                                        2 x Qwiic connector
+                                        1 x JST2 connector+cable
+                                        1 x Force1 RC car
+                                        1 x Li-Ion 3.7V 850mAh battery)
                                         <br>
                                         <b>Software</b><br>
                                         Arduino IDE<br>
@@ -833,7 +895,7 @@
                             <div class="row justify-content-center">
                                 <div class="col-lg-8">
                                     <!-- Portfolio Modal - Title-->
-                                    <h2 class="portfolio-modal-title text-secondary text-uppercase mb-0">Lab 1: The Artemis Board</h2>
+                                    <h2 class="portfolio-modal-title text-secondary text-uppercase mb-0">Lab 6: Closed-Loop Control (PID)</h2>
                                     <!-- Icon Divider-->
                                     <div class="divider-custom">
                                         <div class="divider-custom-line"></div>
@@ -850,8 +912,14 @@
                                         using the onboard temperature sensor and Pulse Density Microphone. <br>
                                         <br>
                                         <b>Hardware</b><br>
-                                        1 x SparkFun RedBoard Artemis Nano<br>
-                                        1 x USB C-to-C Cable<br>
+                                        1 x R/C stunt car
+                                        1 x SparkFun RedBoard Artemis Nano
+                                        1 x USB cable
+                                        2 x Li-Po 3.7V 650mAh (or more) battery
+                                        2 x Dual motor driver
+                                        2 x 4m ToF sensor
+                                        1 x 9DOF IMU sensor
+                                        1 x Qwiic connector
                                         <br>
                                         <b>Software</b><br>
                                         Arduino IDE<br>
@@ -906,7 +974,7 @@
                             <div class="row justify-content-center">
                                 <div class="col-lg-8">
                                     <!-- Portfolio Modal - Title-->
-                                    <h2 class="portfolio-modal-title text-secondary text-uppercase mb-0">Lab 1: The Artemis Board</h2>
+                                    <h2 class="portfolio-modal-title text-secondary text-uppercase mb-0">Lab 7: Kalman Filter</h2>
                                     <!-- Icon Divider-->
                                     <div class="divider-custom">
                                         <div class="divider-custom-line"></div>
@@ -923,8 +991,14 @@
                                         using the onboard temperature sensor and Pulse Density Microphone. <br>
                                         <br>
                                         <b>Hardware</b><br>
-                                        1 x SparkFun RedBoard Artemis Nano<br>
-                                        1 x USB C-to-C Cable<br>
+                                        1 x R/C stunt car
+                                        1 x SparkFun RedBoard Artemis Nano
+                                        1 x USB cable
+                                        2 x Li-Po 3.7V 650mAh (or more) battery
+                                        2 x Dual motor driver
+                                        2 x 4m ToF sensor
+                                        1 x 9DOF IMU sensor
+                                        1 x Qwiic connector
                                         <br>
                                         <b>Software</b><br>
                                         Arduino IDE<br>
@@ -979,7 +1053,7 @@
                             <div class="row justify-content-center">
                                 <div class="col-lg-8">
                                     <!-- Portfolio Modal - Title-->
-                                    <h2 class="portfolio-modal-title text-secondary text-uppercase mb-0">Lab 1: The Artemis Board</h2>
+                                    <h2 class="portfolio-modal-title text-secondary text-uppercase mb-0">Lab 8: Stunts!</h2>
                                     <!-- Icon Divider-->
                                     <div class="divider-custom">
                                         <div class="divider-custom-line"></div>
@@ -996,8 +1070,14 @@
                                         using the onboard temperature sensor and Pulse Density Microphone. <br>
                                         <br>
                                         <b>Hardware</b><br>
-                                        1 x SparkFun RedBoard Artemis Nano<br>
-                                        1 x USB C-to-C Cable<br>
+                                        1 x R/C stunt car
+                                        1 x SparkFun RedBoard Artemis Nano
+                                        1 x USB cable
+                                        2 x Li-Po 3.7V 650mAh (or more) battery
+                                        2 x Dual motor driver
+                                        2 x 4m ToF sensor
+                                        1 x 9DOF IMU sensor
+                                        1 x Qwiic connector     
                                         <br>
                                         <b>Software</b><br>
                                         Arduino IDE<br>
@@ -1052,7 +1132,7 @@
                             <div class="row justify-content-center">
                                 <div class="col-lg-8">
                                     <!-- Portfolio Modal - Title-->
-                                    <h2 class="portfolio-modal-title text-secondary text-uppercase mb-0">Lab 1: The Artemis Board</h2>
+                                    <h2 class="portfolio-modal-title text-secondary text-uppercase mb-0">Lab 9: Mapping</h2>
                                     <!-- Icon Divider-->
                                     <div class="divider-custom">
                                         <div class="divider-custom-line"></div>
@@ -1069,8 +1149,7 @@
                                         using the onboard temperature sensor and Pulse Density Microphone. <br>
                                         <br>
                                         <b>Hardware</b><br>
-                                        1 x SparkFun RedBoard Artemis Nano<br>
-                                        1 x USB C-to-C Cable<br>
+                                        1 x Fully assembled robot, with Artemis, TOF sensors, and an IMU.
                                         <br>
                                         <b>Software</b><br>
                                         Arduino IDE<br>
@@ -1207,7 +1286,7 @@
                             <div class="row justify-content-center">
                                 <div class="col-lg-8">
                                     <!-- Portfolio Modal - Title-->
-                                    <h2 class="portfolio-modal-title text-secondary text-uppercase mb-0">Lab 1: The Artemis Board</h2>
+                                    <h2 class="portfolio-modal-title text-secondary text-uppercase mb-0">Lab 11: Localization on the Real Robot</h2>
                                     <!-- Icon Divider-->
                                     <div class="divider-custom">
                                         <div class="divider-custom-line"></div>
@@ -1224,8 +1303,7 @@
                                         using the onboard temperature sensor and Pulse Density Microphone. <br>
                                         <br>
                                         <b>Hardware</b><br>
-                                        1 x SparkFun RedBoard Artemis Nano<br>
-                                        1 x USB C-to-C Cable<br>
+                                        1 x Fully assembled robot, with Artemis, TOF sensors, and an IMU.
                                         <br>
                                         <b>Software</b><br>
                                         Arduino IDE<br>
@@ -1280,7 +1358,7 @@
                             <div class="row justify-content-center">
                                 <div class="col-lg-8">
                                     <!-- Portfolio Modal - Title-->
-                                    <h2 class="portfolio-modal-title text-secondary text-uppercase mb-0">Lab 1: The Artemis Board</h2>
+                                    <h2 class="portfolio-modal-title text-secondary text-uppercase mb-0">Lab 12: Path Planning and Execution</h2>
                                     <!-- Icon Divider-->
                                     <div class="divider-custom">
                                         <div class="divider-custom-line"></div>
@@ -1297,8 +1375,7 @@
                                         using the onboard temperature sensor and Pulse Density Microphone. <br>
                                         <br>
                                         <b>Hardware</b><br>
-                                        1 x SparkFun RedBoard Artemis Nano<br>
-                                        1 x USB C-to-C Cable<br>
+                                        1 x Fully assembled robot, with Artemis, TOF sensors, and an IMU.
                                         <br>
                                         <b>Software</b><br>
                                         Arduino IDE<br>
