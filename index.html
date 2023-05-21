@@ -558,9 +558,9 @@
                                     <!-- Portfolio Modal - Text-->
                                     <p class="mb-4">
                                         <b>Objective</b><br>
-                                        The goal of Lab 1 is to set up and become familiar with the Arduino IDE and the Artemis board. Specifically, this involves 
-                                        becoming comfortable programming the Artemis board, using the board LED, reading/writing serial messages over USB, and 
-                                        using the onboard temperature sensor and Pulse Density Microphone. <br>
+                                        The goal of this lab is to equip the robot with sensors, namely two Time of Flight (ToF) sensors, so that it can find its distance from an object.  
+                                        It is important for the robot to sample at a fast rate because the faster the robot can sample, the more it can trust a sensor reading, and therefore 
+                                        the faster it is able to drive. <br>
                                         <br>
                                         <b>Hardware</b><br>
                                         1 x SparkFun RedBoard Artemis Nano<br>
@@ -568,7 +568,7 @@
                                         2 x 4m ToF Sensors
                                         1 x QWIIC Breakout Broad
                                         2 x QWIIC Connector
-                                        1 x Ruler
+                                        1 x Ruler <br>
                                         
                                         <br>
                                         <b>Software</b><br>
@@ -581,13 +581,14 @@
                                         AAs found on the VL53L0X datasheet, the default address of the ToF sensor is 0x52. <br> 
                                         <br>
                                         Since two sensors will be used, the addresses of each ToF sensor will need to be changed in order to distinguish the data received from each one.  
-                                        This can be accomplished in two ways:    
-                                        1. Changing the address programmatically (while powered)<br>
+                                        This can be accomplished in two ways: <br>
+                                        <br>
+                                        <u>1. Changing the address programmatically (while powered)</u><br>
                                         This method consists of changing the I2C address of one of the ToF sensors while the other one is shut down using the Xshut pin.  That way, the 
                                         sensors will have different I2C addresses and the computer can tell apart the data sent by the two sensors.  It will also allow both sensors to 
                                         be read without having to shut down one while the other is running.<br>
                                         <br>
-                                        2. Enable sensors separately through their shutdown pins<br>
+                                        <u>2. Enable sensors separately through their shutdow pins</u><br>
                                         This alternative method involves pulling down the shutdown pin of one sensor to power it off every time the other one is extracting data using the 
                                         shared I2C address. This method conserves power by turning off one sensor when not in use, eliminating the need to change the sensor addresses after 
                                         each power cycle. However, implementing this method requires additional programming logic to control the activation and deactivation of the shutdown 
@@ -646,7 +647,7 @@
                                         <img width="600" height="450" src="artemislab_serial.png" alt="..."></img><br>
                                         <img width="600" height="450" src="artemislab_serial.png" alt="..."></img><br>
                                         As shown, the ranging time is approximately 52 ms.  This is the limiting factor in the sense that this is the minimum time between data points.  In other words, this 
-                                        is how long the sensor takes in between reading and sending data.  
+                                        is how long the sensor takes in between reading and sending data. <br>  
                                         <br>
 
                                         <b>8. Time vs Distance</b><br>
