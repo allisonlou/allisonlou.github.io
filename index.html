@@ -1302,23 +1302,11 @@
                                         The goal of this lab is to perform localization with the Bayes filter on the actual robot and develop an appreciation for the 
                                         differences between simulation and the real-world <br>
                                         <br>
-                                        <b>Hardware</b><br>
-                                        1 x Fully assembled robot, with Artemis, TOF sensors, and an IMU.
-                                        <br>
-                                        <b>Software</b><br>
-                                        Arduino IDE<br>
-                                        <br>
-
-                                        <b>1. Prelab</b><br>
-                                        prelab her<br> 
-                                        <iframe width="600" height="450" src="https://youtube.com/embed/lo7z2jMCCbU"></iframe><br>
-                                        <br>
 
                                         <b>Testing Localization in Simulation</b><br>
                                         To check that everything was set up properly, I first ran the provided notebook lab11_sim.ipynb, which is an optimized Bayes 
                                         filter implementation for the simulated robot.  The map used (dimensions: x=12, y=9, theta=18 ) was divided into a 3D grid size 
                                         of 1944 possible robot poses.  Pictured is a screenshot of the localization in simulation.<br>  
-                                        <img width="600" height="450" src="artemislab_serial.png" alt="..."></img><br>
                                         <br>
 
                                         <b>Testing Localization in Real Life</b><br>
@@ -1327,7 +1315,6 @@
                                         compatibility with the provided localization code, namely modifying the format of my data a slight bit to represent my vector 
                                         as a numpy array.  The method should output this array where it consists of 18 ToF sensor readings and the respective angle at 
                                         20-degree increments from 0 degrees to 340 degrees.  Since the robot goes counterclockwise, this array was also inverted.<br>
-                                        <iframe width="600" height="450" src="https://youtube.com/embed/U4Pq805myvI"></iframe><br>
                                         <br>
 
                                         <b>Arduino Code</b><br>
