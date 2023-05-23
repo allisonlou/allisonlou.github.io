@@ -1332,24 +1332,53 @@
 
                                         <b>Arduino Code</b><br>
                                         Pictured below is the Arduino code used.<br> 
-                                        <iframe width="600" height="450" src="https://youtube.com/embed/uQum4yToBSE"></iframe><br>
+                                        <iframe width="600" height="450" src="lab 11 arduino code.png"></iframe><br>
                                         <br>
                                         
                                         <b>Python Code</b><br>
                                         Picutred is the Python code used.<br>  
-                                        <img width="600" height="450" src="artemislab_serial.png" alt="..."></img><br>
+                                        <img width="600" height="450" src="lab 11 python code.png" alt="..."></img><br>
                                         <br>
                                         
                                         <b>Results</b><br>
-                                        (5,3)<br>  
-                                        <img width="600" height="450" src="artemislab_serial.png" alt="..."></img><br>
-                                        (5,-3)<br>  
-                                        <img width="600" height="450" src="artemislab_serial.png" alt="..."></img><br>
-                                        (0,3)<br>  
-                                        <img width="600" height="450" src="artemislab_serial.png" alt="..."></img><br>
-                                        (-3,-2)<br>  
-                                        <img width="600" height="450" src="artemislab_serial.png" alt="..."></img><br>
+                                        I tested the following locations two times.  Plotted for each test are the belief (the blue dot) and the ground truth (the green dot):<br>
                                         <br>
+                            
+                                        (5,3)<br>  
+                                        The first test for this spot turned out to be accurate with the program correctly predicting the robot’s position.  As seen, the 
+                                        ground truth is directly above the initial belief.  However, for the second test, the initial belief was one grid below from the 
+                                        ground truth. <br> 
+                                        <img width="600" height="450" src="lab 11 test 1.1.png" alt="..."></img><br>
+                                        <img width="600" height="450" src="lab 11 test 1.2.png" alt="..."></img><br>
+                                        <br>
+                    
+                                        (5,-3)<br>  
+                                        Both tests for this location turned out to be slightly off.  For the first test, the initial belief is one grid down and one grid 
+                                        to the right from the ground truth.  For the second test, the initial belief is also one grid down but this time it is also one grid 
+                                        to the left of the ground truth. <br>
+                                        <img width="600" height="450" src="lab 11 test 2.1.png" alt="..."></img><br>
+                                        <img width="600" height="450" src="lab 11 test 2.2.png" alt="..."></img><br>
+                                        <br>
+            
+                                        (0,3)<br>  
+                                        The first test for this spot turned out to be accurate with the initial belief matching the ground truth.  However, for the second test, 
+                                        the initial belief is one grid above and one grid to the right from the ground truth. <br>
+                                        <img width="600" height="450" src="lab 11 test 3.1.png" alt="..."></img><br>
+                                        <img width="600" height="450" src="lab 11 test 3.2.png" alt="..."></img><br>
+                                        <br>
+
+                                        (-3,-2)<br>  
+                                        For this spot, the initial belief matched the ground truth for the first test.  However, it was two grids below and two grids to the left 
+                                        from the ground truth.   
+                                        <img width="600" height="450" src="lab 11 test 4.1.png" alt="..."></img><br>
+                                        <img width="600" height="450" src="lab 11 test 4.2.png" alt="..."></img><br>
+                                        <br>
+
+                                        Discussion:<br>
+                                        Overall, it seems that the localization performs reasonably well.  The first tests for most of the locations were accurate while all of the 
+                                        second tests were slightly off.  A reason for this could be the limited range of ToF sensor.  The farther away objects are, the less accurate 
+                                        the sensor will be.  The inaccuracies could also be related to the symmetry of the surroundings and how the localization algorithm seems to be 
+                                        less accurate the more symmetrical a location is. <br> 
                                         </p>
                                     <button class="btn btn-primary" data-bs-dismiss="modal">
                                         <i class="fas fa-xmark fa-fw"></i>
